@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import axios from 'axios';
-import { apiRoutes } from '@/config/apiRoutes';
+import { apiRoutes } from '@/config/api-routes';
 
 type User = {
   id: number;
