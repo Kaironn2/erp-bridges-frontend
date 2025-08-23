@@ -5,6 +5,10 @@ import { LoginFormValues, loginSchema } from '@/lib/schemas/auth/login-schema';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Button } from '../ui/button';
+import { ValidationErrorMessage } from './ValidationErrorMessage';
+import { useAuthStore } from '@/store/use-auth-store';
+import { useRouter } from 'next/navigation';
+import { useEffect } from 'react';
 
 export function LoginForm() {
   const {
@@ -15,12 +19,23 @@ export function LoginForm() {
     resolver: zodResolver(loginSchema),
   });
 
-  const onSubmit = (data: LoginFormValues) => {
-    console.log(data);
+  const { login, error: authError, clearError } = useAuthStore();
+  const router = useRouter();
+
+  useEffect(() => {
+    clearError();
+  }, [clearError]);
+
+  const onSubmit = async (data: LoginFormValues) => {
+    const sucess = await login(data);
+
+    if (sucess) {
+      router.push('/');
+    }
   };
 
-  const mainDivClasses = clsx('flex flex-col gap-6 w-full max-w-sm');
-  const inputDivClasses = clsx('grid w-full max-w-sm items-center gap-3');
+  const mainDivClasses = clsx('flex flex-col gap-3 w-full max-w-sm');
+  const inputDivClasses = clsx('grid w-full max-w-sm items-center gap-1');
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
@@ -33,9 +48,7 @@ export function LoginForm() {
             placeholder="Insira seu usuário..."
             {...register('username')}
           />
-          {errors.username && (
-            <span className="destructive">{errors.username.message}</span>
-          )}
+          <ValidationErrorMessage message={errors.username?.message} />
         </div>
 
         <div className={inputDivClasses}>
@@ -46,14 +59,16 @@ export function LoginForm() {
             placeholder="Insira sua senha..."
             {...register('password')}
           />
-          {errors.password && (
-            <span className="destructive">{errors.password.message}</span>
-          )}
+          <ValidationErrorMessage message={errors.password?.message} />
         </div>
 
         <Button type="submit" disabled={isSubmitting}>
-          Entrar
+          {isSubmitting ? 'Entrando...' : 'Entrar'}
         </Button>
+
+        {authError && (
+          <p className="text-sm text-destructive text-center">{authError}</p>
+        )}
       </div>
     </form>
   );
