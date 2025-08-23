@@ -1,9 +1,9 @@
 'use client';
 
 import { usePathname, useRouter } from 'next/navigation';
+import { motion, AnimatePresence } from 'framer-motion';
 import { LoginForm } from './LoginForm';
 import { SignupForm } from './SignupForm';
-import { motion, AnimatePresence } from 'framer-motion';
 import clsx from 'clsx';
 
 export function AuthFormSwitcher() {
@@ -16,24 +16,42 @@ export function AuthFormSwitcher() {
     router.push(`/${to}`);
   };
 
+  const commomClasses = clsx(
+    'flex-1 py-2 text-center font-bold transition-colors'
+  );
+
+  const selectedClasses = clsx('border-b-2 border-primary text-primary');
+
+  const nonSelectedClasses = clsx(
+    'text-muted hover:text-secondary',
+    'hover:border-b-2 hover:border-secondary'
+  );
+
+  const cursor = {
+    login: { 'cursor-pointer': !isLogin },
+    signup: { 'cursor-pointer': isLogin },
+  };
+
   return (
     <div className="w-full">
       <div className="flex mb-6 border-b border-gray-300">
         <button
+          disabled={isLogin}
           className={clsx(
-            'flex-1 py-2 text-center font-bold transition-colors',
-            isLogin ? 'border-b-2 border-primary text-primary' : 'text-gray-500'
+            commomClasses,
+            isLogin ? selectedClasses : nonSelectedClasses,
+            cursor.login
           )}
           onClick={() => handleToggle('auth/login')}
         >
           Entrar
         </button>
         <button
+          disabled={!isLogin}
           className={clsx(
-            'flex-1 py-2 text-center font-bold transition-colors',
-            !isLogin
-              ? 'border-b-2 border-primary text-primary'
-              : 'text-gray-500'
+            commomClasses,
+            !isLogin ? selectedClasses : nonSelectedClasses,
+            cursor.signup
           )}
           onClick={() => handleToggle('auth/signup')}
         >
