@@ -1,0 +1,91 @@
+'use client';
+
+import { usePathname, useRouter } from 'next/navigation';
+import { motion, AnimatePresence } from 'framer-motion';
+import { LoginForm } from './LoginForm';
+import { SignupForm } from './SignupForm';
+import clsx from 'clsx';
+
+export function AuthFormSwitcher() {
+  const pathname = usePathname();
+  const router = useRouter();
+
+  const isLogin = pathname === '/login';
+
+  const handleToggle = (to: 'login' | 'signup') => {
+    router.push(`/${to}`);
+  };
+
+  const commomClasses = clsx(
+    'flex-1 py-2 text-center font-bold transition-colors'
+  );
+
+  const selectedClasses = clsx('border-b-2 border-primary text-primary');
+
+  const nonSelectedClasses = clsx(
+    'text-muted hover:text-secondary',
+    'hover:border-b-2 hover:border-secondary'
+  );
+
+  const cursor = {
+    login: { 'cursor-pointer': !isLogin },
+    signup: { 'cursor-pointer': isLogin },
+  };
+
+  return (
+    <div className="w-full">
+      <div className="flex mb-6 border-b border-gray-300">
+        <button
+          disabled={isLogin}
+          className={clsx(
+            commomClasses,
+            isLogin ? selectedClasses : nonSelectedClasses,
+            cursor.login
+          )}
+          onClick={() => handleToggle('login')}
+        >
+          Entrar
+        </button>
+        <button
+          disabled={!isLogin}
+          className={clsx(
+            commomClasses,
+            !isLogin ? selectedClasses : nonSelectedClasses,
+            cursor.signup
+          )}
+          onClick={() => handleToggle('signup')}
+        >
+          Cadastrar
+        </button>
+      </div>
+
+      <div className="relative min-h-[200px]">
+        <AnimatePresence mode="wait">
+          {isLogin ? (
+            <motion.div
+              key="login"
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: 20 }}
+              transition={{ duration: 0.3 }}
+              className="absolute w-full"
+            >
+              <LoginForm />
+            </motion.div>
+          ) : (
+            <motion.div
+              key="signup"
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -20 }}
+              transition={{ duration: 0.3 }}
+              className="absolute w-full"
+            >
+              <SignupForm />
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </div>
+    </div>
+  );
+}

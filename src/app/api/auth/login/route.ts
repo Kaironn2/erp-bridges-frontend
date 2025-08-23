@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import axios from 'axios';
-import { apiRoutes } from '@/config/apiRoutes';
+import { apiRoutes } from '@/config/api-routes';
 
 export async function POST(req: Request) {
   const body = await req.json();
