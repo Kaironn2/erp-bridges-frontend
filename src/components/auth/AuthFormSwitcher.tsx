@@ -10,9 +10,9 @@ export function AuthFormSwitcher() {
   const pathname = usePathname();
   const router = useRouter();
 
-  const isLogin = pathname === '/auth/login';
+  const isLogin = pathname === '/login';
 
-  const handleToggle = (to: 'auth/login' | 'auth/signup') => {
+  const handleToggle = (to: 'login' | 'signup') => {
     router.push(`/${to}`);
   };
 
@@ -42,7 +42,7 @@ export function AuthFormSwitcher() {
             isLogin ? selectedClasses : nonSelectedClasses,
             cursor.login
           )}
-          onClick={() => handleToggle('auth/login')}
+          onClick={() => handleToggle('login')}
         >
           Entrar
         </button>
@@ -53,7 +53,7 @@ export function AuthFormSwitcher() {
             !isLogin ? selectedClasses : nonSelectedClasses,
             cursor.signup
           )}
-          onClick={() => handleToggle('auth/signup')}
+          onClick={() => handleToggle('signup')}
         >
           Cadastrar
         </button>
