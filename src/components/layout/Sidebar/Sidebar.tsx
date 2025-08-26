@@ -4,8 +4,9 @@ import { useUIStore } from '@/store/use-ui-store';
 import { Button } from '@/components/ui/button';
 import { ChevronsLeft, X } from 'lucide-react';
 import clsx from 'clsx';
+import { ErpBrdigesLogo } from '../../branding/ErpBridgesLogo';
+import Link from 'next/link';
 import { AccordionMenu } from './AccordionMenu';
-import { ErpBrdigesLogo } from '../branding/ErpBridgesLogo';
 
 export function Sidebar() {
   const {
@@ -43,7 +44,7 @@ export function Sidebar() {
             'justify-center': isSidebarCollapsed,
           })}
         >
-          <div className="flex justify-center items-center gap-2">
+          <Link href={'/'} className="flex justify-center items-center gap-2">
             <ErpBrdigesLogo width={50} height={50} />
             <h1
               className={clsx('text-lg font-bold', {
@@ -52,7 +53,7 @@ export function Sidebar() {
             >
               ERP Bridges
             </h1>
-          </div>
+          </Link>
 
           <Button
             variant="ghost"

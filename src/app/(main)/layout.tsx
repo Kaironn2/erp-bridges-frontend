@@ -1,6 +1,6 @@
-import { Header } from '@/components/layout/Header';
+import { Header } from '@/components/layout/Header/Header';
 import { MainContainer } from '@/components/layout/MainContainer';
-import { Sidebar } from '@/components/layout/Sidebar';
+import { Sidebar } from '@/components/layout/Sidebar/Sidebar';
 import { ReactNode } from 'react';
 
 export default function MainLayout({ children }: { children: ReactNode }) {

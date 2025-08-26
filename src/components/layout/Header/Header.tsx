@@ -3,8 +3,9 @@
 import { Button } from '@/components/ui/button';
 import { useUIStore } from '@/store/use-ui-store';
 import { Menu } from 'lucide-react';
-import { ModeToggle } from '../mode-toggle';
-import { LogoutButton } from '../auth/LogoutButton';
+import { ModeToggle } from '../../mode-toggle';
+import { LogoutButton } from '../../auth/LogoutButton';
+import { UserProfileHeader } from './UserProfileHeader';
 
 export function Header() {
   const { toggleSidebar } = useUIStore();
@@ -20,9 +21,10 @@ export function Header() {
         <Menu className="h-6 w-6" />
       </Button>
 
-      <div>
+      <div className="flex flex-row items-center">
         <ModeToggle />
         <LogoutButton />
+        <UserProfileHeader userName="Jonh" userRole="RPA Developer" />
       </div>
     </header>
   );
