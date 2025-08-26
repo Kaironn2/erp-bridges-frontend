@@ -7,25 +7,26 @@ import {
   AccordionTrigger,
 } from '@/components/ui/accordion';
 import { Button } from '@/components/ui/button';
-import { BarChart, FileText, Settings, ChevronsRight } from 'lucide-react';
+import { Settings, ChevronsRight, Store, ShoppingBag } from 'lucide-react';
 import clsx from 'clsx';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 
 const menuItems = [
   {
-    title: 'Relatórios',
-    icon: FileText,
+    title: 'E-commerce',
+    icon: ShoppingBag,
     links: [
-      { href: '/reports/upload', label: 'Upload' },
-      { href: '/reports/history', label: 'Histórico' },
+      { href: '/ecommerce/orders', label: 'Pedidos' },
+      { href: '/ecommerce/customers', label: 'Clientes' },
     ],
   },
   {
-    title: 'Dashboards',
-    icon: BarChart,
+    title: 'Lojas',
+    icon: Store,
     links: [
-      { href: '/dashboard/sales', label: 'Vendas' },
-      { href: '/dashboard/mkt', label: 'Marketing' },
+      { href: '/stores/sales', label: 'Vendas' },
+      { href: '/stores/mkt', label: 'Marketing' },
     ],
   },
   {
@@ -40,6 +41,8 @@ type AccordionMenuProps = {
 };
 
 export function AccordionMenu({ isCollapsed }: AccordionMenuProps) {
+  const pathname = usePathname();
+
   return (
     <Accordion type="multiple" className="w-full">
       {menuItems.map((item, index) => (
@@ -58,22 +61,30 @@ export function AccordionMenu({ isCollapsed }: AccordionMenuProps) {
                 'items-center': isCollapsed,
               })}
             >
-              {item.links.map((link) => (
-                <Button
-                  key={link.href}
-                  variant="ghost"
-                  className="w-full justify-start hover:bg-transparent hover:text-accent"
-                  asChild
-                >
-                  <Link href={link.href}>
-                    {isCollapsed ? (
-                      <ChevronsRight className="h-4 w-4" />
-                    ) : (
-                      link.label
+              {item.links.map((link) => {
+                const isActive = pathname === link.href;
+                return (
+                  <Button
+                    key={link.href}
+                    variant="ghost"
+                    className={clsx(
+                      'w-full justify-start rounded-none px-3 py-2 text-sm font-medium transition-colors hover:bg-transparent hover:text-secondary',
+                      {
+                        'border-l-4 border-secondary': isActive,
+                      }
                     )}
-                  </Link>
-                </Button>
-              ))}
+                    asChild
+                  >
+                    <Link href={link.href}>
+                      {isCollapsed ? (
+                        <ChevronsRight className="h-4 w-4" />
+                      ) : (
+                        link.label
+                      )}
+                    </Link>
+                  </Button>
+                );
+              })}
             </div>
           </AccordionContent>
         </AccordionItem>
