@@ -17,8 +17,8 @@ const menuItems = [
     title: 'E-commerce',
     icon: ShoppingBag,
     links: [
-      { href: '/ecommerce/orders', label: 'Pedidos' },
       { href: '/ecommerce/customers', label: 'Clientes' },
+      { href: '/ecommerce/orders', label: 'Pedidos' },
     ],
   },
   {
