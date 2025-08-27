@@ -3,12 +3,12 @@ import { Label } from '../ui/label';
 import { Input } from '../ui/input';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Button } from '../ui/button';
 import {
   SignupFormValues,
   signupSchema,
 } from '@/lib/schemas/auth/signup-schema';
 import { ValidationErrorMessage } from './ValidationErrorMessage';
+import { AuthButton } from './AuthButton';
 
 export function SignupForm() {
   const {
@@ -73,9 +73,11 @@ export function SignupForm() {
           <ValidationErrorMessage message={errors.confirmPassword?.message} />
         </div>
 
-        <Button type="submit" disabled={isSubmitting}>
-          Cadastrar
-        </Button>
+        <AuthButton
+          text="Cadastrar"
+          isSubmitting={isSubmitting}
+          isSubmittingText="Cadastrando..."
+        />
       </div>
     </form>
   );
