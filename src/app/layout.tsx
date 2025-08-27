@@ -1,6 +1,14 @@
 import { ThemeProvider } from '@/components/theme-provider';
 import { lexend } from './fonts';
 import './globals.css';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: {
+    default: 'ERP Bridges',
+    template: '%s | ERP Bridges',
+  },
+};
 
 export default function RootLayout({
   children,
