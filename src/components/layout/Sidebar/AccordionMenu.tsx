@@ -45,50 +45,62 @@ export function AccordionMenu({ isCollapsed }: AccordionMenuProps) {
 
   return (
     <Accordion type="multiple" className="w-full">
-      {menuItems.map((item, index) => (
-        <AccordionItem value={`item-${index}`} key={index}>
-          <AccordionTrigger>
-            <div className="flex items-center gap-3">
-              <item.icon className="h-5 w-5" />
-              <span className={clsx({ hidden: isCollapsed })}>
-                {item.title}
-              </span>
-            </div>
-          </AccordionTrigger>
-          <AccordionContent>
-            <div
-              className={clsx('flex flex-col gap-2 pl-5', {
-                'items-center': isCollapsed,
+      {menuItems.map((item, index) => {
+        const isAccordionGroupActive = item.links.some((link) =>
+          pathname.startsWith(link.href)
+        );
+
+        return (
+          <AccordionItem value={`item-${index}`} key={index}>
+            <AccordionTrigger
+              className={clsx('p-2', {
+                'border-l-4 border-secondary': isAccordionGroupActive,
               })}
             >
-              {item.links.map((link) => {
-                const isActive = pathname === link.href;
-                return (
-                  <Button
-                    key={link.href}
-                    variant="ghost"
-                    className={clsx(
-                      'w-full justify-start rounded-none px-3 py-2 text-sm font-medium transition-colors hover:bg-transparent hover:text-secondary',
-                      {
-                        'border-l-4 border-secondary': isActive,
-                      }
-                    )}
-                    asChild
-                  >
-                    <Link href={link.href}>
-                      {isCollapsed ? (
-                        <ChevronsRight className="h-4 w-4" />
-                      ) : (
-                        link.label
+              <div className="flex items-center gap-3">
+                <item.icon className="h-5 w-5" />
+                <span className={clsx({ hidden: isCollapsed })}>
+                  {item.title}
+                </span>
+              </div>
+            </AccordionTrigger>
+            <AccordionContent>
+              <div
+                className={clsx('flex flex-col gap-2 pl-5', {
+                  'items-center': isCollapsed,
+                })}
+              >
+                {item.links.map((link) => {
+                  const isActive = pathname === link.href;
+                  return (
+                    <Button
+                      key={link.href}
+                      variant="ghost"
+                      className={clsx(
+                        'w-full justify-start rounded-none',
+                        'px-3 py-2 text-sm font-medium',
+                        'transition-colors hover:bg-transparent hover:text-secondary',
+                        {
+                          'text-secondary': isActive,
+                        }
                       )}
-                    </Link>
-                  </Button>
-                );
-              })}
-            </div>
-          </AccordionContent>
-        </AccordionItem>
-      ))}
+                      asChild
+                    >
+                      <Link href={link.href}>
+                        {isCollapsed ? (
+                          <ChevronsRight className="h-4 w-4" />
+                        ) : (
+                          link.label
+                        )}
+                      </Link>
+                    </Button>
+                  );
+                })}
+              </div>
+            </AccordionContent>
+          </AccordionItem>
+        );
+      })}
     </Accordion>
   );
 }
