@@ -17,8 +17,8 @@ const menuItems = [
     title: 'E-commerce',
     icon: ShoppingBag,
     links: [
-      { href: '/ecommerce/orders', label: 'Pedidos' },
       { href: '/ecommerce/customers', label: 'Clientes' },
+      { href: '/ecommerce/orders', label: 'Pedidos' },
     ],
   },
   {
@@ -53,8 +53,8 @@ export function AccordionMenu({ isCollapsed }: AccordionMenuProps) {
         return (
           <AccordionItem value={`item-${index}`} key={index}>
             <AccordionTrigger
-              className={clsx('p-2', {
-                'border-l-4 border-secondary': isAccordionGroupActive,
+              className={clsx('p-2 hover:text-primary', {
+                'border-l-4 border-primary': isAccordionGroupActive,
               })}
             >
               <div className="flex items-center gap-3">
@@ -79,9 +79,9 @@ export function AccordionMenu({ isCollapsed }: AccordionMenuProps) {
                       className={clsx(
                         'w-full justify-start rounded-none',
                         'px-3 py-2 text-sm font-medium',
-                        'transition-colors hover:bg-transparent hover:text-secondary',
+                        'transition-colors hover:bg-transparent hover:text-primary',
                         {
-                          'text-secondary': isActive,
+                          'text-primary': isActive,
                         }
                       )}
                       asChild

@@ -4,11 +4,11 @@ import { Input } from '../ui/input';
 import { LoginFormValues, loginSchema } from '@/lib/schemas/auth/login-schema';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Button } from '../ui/button';
 import { ValidationErrorMessage } from './ValidationErrorMessage';
 import { useAuthStore } from '@/store/use-auth-store';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
+import { AuthButton } from './AuthButton';
 
 export function LoginForm() {
   const {
@@ -62,10 +62,11 @@ export function LoginForm() {
           <ValidationErrorMessage message={errors.password?.message} />
         </div>
 
-        <Button type="submit" disabled={isSubmitting}>
-          {isSubmitting ? 'Entrando...' : 'Entrar'}
-        </Button>
-
+        <AuthButton
+          text="Entrar"
+          isSubmitting={isSubmitting}
+          isSubmittingText="Entrando..."
+        />
         {authError && (
           <p className="text-sm text-destructive text-center">{authError}</p>
         )}

@@ -1,3 +1,4 @@
+import { Footer } from '@/components/layout/Footer';
 import { Header } from '@/components/layout/Header/Header';
 import { MainContainer } from '@/components/layout/MainContainer';
 import { Sidebar } from '@/components/layout/Sidebar/Sidebar';
@@ -11,7 +12,9 @@ export default function MainLayout({ children }: { children: ReactNode }) {
       <MainContainer>
         <Header />
 
-        <div className="flex-1 p-6">{children}</div>
+        <div className="flex-1 md:p-6">{children}</div>
+
+        <Footer />
       </MainContainer>
     </div>
   );
