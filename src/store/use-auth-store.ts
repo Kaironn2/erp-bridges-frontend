@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import axios from 'axios';
-import { apiRoutes } from '@/config/api-routes';
+import { apiRoutes } from '@/lib/api-routes';
+import apiClient from '@/lib/api-client';
 
 type User = {
   id: number;
@@ -38,7 +38,7 @@ export const useAuthStore = create(
       login: async (credentials) => {
         set({ loading: true, error: null });
         try {
-          const res = await axios.post(apiRoutes.auth.login, credentials, {
+          const res = await apiClient.post(apiRoutes.auth.login, credentials, {
             withCredentials: true,
           });
 
@@ -79,7 +79,7 @@ export const useAuthStore = create(
 
       checkAuth: async () => {
         try {
-          const res = await axios.get(apiRoutes.auth.me, {
+          const res = await apiClient.get(apiRoutes.auth.me, {
             withCredentials: true,
           });
           set({ user: res.data, isAuthenticated: true });
