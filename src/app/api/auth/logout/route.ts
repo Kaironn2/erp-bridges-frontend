@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import axios from 'axios';
-import { apiRoutes } from '@/config/api-routes';
+import { apiRoutes } from '@/lib/api-routes';
 
 export async function POST() {
   try {
