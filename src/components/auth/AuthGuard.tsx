@@ -3,6 +3,7 @@
 import { useAuthStore } from '@/store/use-auth-store';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
+import { Spinner } from '../commom/Spinner';
 
 type AuthGuardProps = {
   children: React.ReactNode;
@@ -11,7 +12,7 @@ type AuthGuardProps = {
 function FullPageLoader() {
   return (
     <div className="flex h-screen w-screen items-center justify-center bg-background">
-      Something
+      <Spinner />
     </div>
   );
 }
