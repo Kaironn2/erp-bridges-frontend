@@ -7,7 +7,7 @@ import { motion } from 'framer-motion';
 
 import { cn } from '@/lib/utils';
 
-const MotionThumb = motion(SwitchPrimitive.Thumb);
+const MotionThumb = motion.create(SwitchPrimitive.Thumb);
 
 const ThemeSwitch = React.forwardRef<
   React.ComponentRef<typeof SwitchPrimitive.Root>,
