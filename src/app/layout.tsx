@@ -2,6 +2,7 @@ import { ThemeProvider } from '@/components/theme-provider';
 import { lexend } from './fonts';
 import './globals.css';
 import { Metadata } from 'next';
+import Providers from './providers';
 
 export const metadata: Metadata = {
   title: {
@@ -22,14 +23,7 @@ export default function RootLayout({
       suppressHydrationWarning
     >
       <body>
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
-          {children}
-        </ThemeProvider>
+        <Providers>{children}</Providers>
       </body>
     </html>
   );
