@@ -11,8 +11,12 @@ export function CustomerDataTable() {
     useCustomerStore();
 
   useEffect(() => {
-    fetchCustomers(1);
+    fetchCustomers({ page: 1 });
   }, [fetchCustomers]);
+
+  const handleFetchCustomers = (page: number) => {
+    fetchCustomers({ page });
+  };
 
   if (isLoading) {
     return (
@@ -36,7 +40,7 @@ export function CustomerDataTable() {
       data={customers}
       noResultsText="Nenhum cliente encontrado"
       pagination={pagination}
-      onPageChange={fetchCustomers}
+      onPageChange={handleFetchCustomers}
     />
   );
 }

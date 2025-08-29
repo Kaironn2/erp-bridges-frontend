@@ -3,6 +3,7 @@
 import { FilterContainer } from '@/components/filters/FilterContainer';
 import { FilterField } from '@/components/filters/FilterField';
 import { RangeInput } from '@/components/filters/RangeInput';
+import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import {
@@ -12,9 +13,20 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import { useCustomerStore } from '@/store/ecommerce/use-customer-store';
 import { Search } from 'lucide-react';
+import { useState } from 'react';
 
 export function EcommerceCustomerFilters() {
+  const { setFilters, fetchCustomers } = useCustomerStore();
+
+  const [email, setEmail] = useState('');
+
+  const handleSearch = () => {
+    setFilters({ email });
+    fetchCustomers({ page: 1 });
+  };
+
   return (
     <FilterContainer
       mainFilters={
@@ -25,10 +37,14 @@ export function EcommerceCustomerFilters() {
                 id="email-search"
                 placeholder="email@exemplo.com"
                 className="pl-8"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
               />
               <Search className="absolute left-2 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
             </div>
           </div>
+          <Button onClick={handleSearch}>Buscar</Button>
         </>
       }
       advancedFilters={
