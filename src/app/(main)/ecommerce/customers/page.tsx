@@ -1,8 +1,9 @@
 import { PageTitle } from '@/components/commom/PageTitle';
 import { Users } from 'lucide-react';
-import { EcommerceCustomerFilters } from '@/components/filters/ecommerce/EcommerceCustomerFilters';
 import { Metadata } from 'next';
 import { Separator } from '@/components/ui/separator';
+import { EcommerceCustomerFilters } from './filters';
+import { CustomerDataTable } from './data-table';
 
 export const metadata: Metadata = {
   title: 'Ecommerce - Clientes',
@@ -17,11 +18,12 @@ export default function CustomersPage() {
         description="Consulte informações sobre clientes do seu Ecommerce"
       />
 
-      <Separator />
+      <Separator className="mt-4" />
 
       <div className="mt-8">
-        <div className="my-4">
+        <div className="my-4 flex flex-col gap-8">
           <EcommerceCustomerFilters />
+          <CustomerDataTable />
         </div>
       </div>
     </div>

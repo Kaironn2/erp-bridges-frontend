@@ -54,3 +54,4 @@ export type Customer = z.infer<typeof customerSchema>;
 export type PaginatedCustomersResponse = z.infer<
   typeof apiPaginatedCustomersResponseSchema
 >;
+export const customersArraySchema = z.array(customerSchema);

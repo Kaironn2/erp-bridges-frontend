@@ -3,6 +3,7 @@ import { apiRoutes } from '@/lib/api-routes';
 import {
   apiPaginatedCustomersResponseSchema,
   Customer,
+  customersArraySchema,
   PaginatedCustomersResponse,
 } from '@/lib/schemas/ecommerce/customer-schema';
 import { create } from 'zustand';
@@ -29,6 +30,8 @@ export const useCustomerStore = create<CustomerState>((set) => ({
       const response = await apiClient.get(apiRoutes.ecommerce.customers, {
         params: { page },
       });
+
+      console.log(response.data);
 
       const validatedData = apiPaginatedCustomersResponseSchema.parse(
         response.data
