@@ -14,7 +14,7 @@ type AuthState = {
   accessToken: string | null;
   refreshToken: string | null;
   isAuthenticated: boolean;
-  loading: boolean;
+  isLoading: boolean;
   error: string | null;
   login: (credentials: {
     username: string;
@@ -22,21 +22,21 @@ type AuthState = {
   }) => Promise<boolean>;
   logout: () => void;
   clearError: () => void;
-  checkAuth: () => Promise<void>;
+  verifyAuth: () => Promise<void>;
 };
 
 export const useAuthStore = create(
   persist<AuthState>(
-    (set) => ({
+    (set, get) => ({
       user: null,
       accessToken: null,
       refreshToken: null,
       isAuthenticated: false,
-      loading: false,
+      isLoading: false,
       error: null,
 
       login: async (credentials) => {
-        set({ loading: true, error: null });
+        set({ isLoading: true, error: null });
         try {
           const res = await apiClient.post(apiRoutes.auth.login, credentials, {
             withCredentials: true,
@@ -49,7 +49,7 @@ export const useAuthStore = create(
             accessToken: access,
             refreshToken: refresh,
             isAuthenticated: true,
-            loading: false,
+            isLoading: false,
           });
 
           return true;
@@ -60,7 +60,7 @@ export const useAuthStore = create(
             'Falha no login. Verifique suas credenciais.';
           set({
             error: errorMessage,
-            loading: false,
+            isLoading: false,
             isAuthenticated: false,
           });
           return false;
@@ -77,14 +77,18 @@ export const useAuthStore = create(
         });
       },
 
-      checkAuth: async () => {
+      verifyAuth: async () => {
+        const { accessToken } = get();
+        if (!accessToken) {
+          set({ isAuthenticated: false });
+          return;
+        }
+
         try {
-          const res = await apiClient.get(apiRoutes.auth.me, {
-            withCredentials: true,
-          });
-          set({ user: res.data, isAuthenticated: true });
-        } catch {
-          set({ user: null, isAuthenticated: false });
+          await apiClient.post(apiRoutes.auth.verify, { token: accessToken });
+        } catch (error) {
+          console.error('Token verification failed, loggin out.');
+          get().logout();
         }
       },
 

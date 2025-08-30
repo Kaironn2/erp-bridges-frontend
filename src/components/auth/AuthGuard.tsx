@@ -18,25 +18,30 @@ function FullPageLoader() {
 }
 
 export function AuthGuard({ children }: AuthGuardProps) {
-  const { isAuthenticated } = useAuthStore();
+  const { isAuthenticated, verifyAuth } = useAuthStore();
   const router = useRouter();
-  const [isClient, setIsClient] = useState(false);
+  const [isVerifying, setIsVerifying] = useState(true);
 
   useEffect(() => {
-    setIsClient(true);
-  }, []);
+    const checkToken = async () => {
+      await verifyAuth();
+      setIsVerifying(false);
+    };
+
+    checkToken();
+  }, [verifyAuth]);
 
   useEffect(() => {
-    if (isClient && isAuthenticated) {
+    if (!isVerifying && isAuthenticated) {
       router.push('/');
     }
-  }, [isClient, isAuthenticated, router]);
+  }, [isVerifying, isAuthenticated, router]);
 
-  if (!isClient) {
+  if (isVerifying) {
     return <FullPageLoader />;
   }
 
-  if (isClient && isAuthenticated) {
+  if (!isVerifying && isAuthenticated) {
     return <FullPageLoader />;
   }
 
