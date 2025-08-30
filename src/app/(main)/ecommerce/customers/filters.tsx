@@ -1,9 +1,9 @@
 'use client';
 
+import { IconButton } from '@/components/commom/IconButton';
 import { FilterContainer } from '@/components/filters/FilterContainer';
 import { FilterField } from '@/components/filters/FilterField';
 import { RangeInput } from '@/components/filters/RangeInput';
-import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import {
@@ -44,7 +44,9 @@ export function EcommerceCustomerFilters() {
               <Search className="absolute left-2 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
             </div>
           </div>
-          <Button onClick={handleSearch}>Buscar</Button>
+          <IconButton icon={<Search />} onClick={handleSearch}>
+            Buscar
+          </IconButton>
         </>
       }
       advancedFilters={
