@@ -21,7 +21,7 @@ export function CustomerDataTable() {
   if (isLoading) {
     return (
       <div className="flex h-64 items-center justify-center">
-        <Spinner />
+        <Spinner size={'lg'} />
       </div>
     );
   }

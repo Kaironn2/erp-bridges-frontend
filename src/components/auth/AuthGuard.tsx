@@ -12,7 +12,7 @@ type AuthGuardProps = {
 function FullPageLoader() {
   return (
     <div className="flex h-screen w-screen items-center justify-center bg-background">
-      <Spinner />
+      <Spinner size={'lg'} />
     </div>
   );
 }
