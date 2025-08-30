@@ -8,7 +8,8 @@ import {
   signupSchema,
 } from '@/lib/schemas/auth/signup-schema';
 import { ValidationErrorMessage } from './ValidationErrorMessage';
-import { AuthButton } from './AuthButton';
+import { IconButton } from '../commom/IconButton';
+import { Pen } from 'lucide-react';
 
 export function SignupForm() {
   const {
@@ -73,11 +74,9 @@ export function SignupForm() {
           <ValidationErrorMessage message={errors.confirmPassword?.message} />
         </div>
 
-        <AuthButton
-          text="Cadastrar"
-          isSubmitting={isSubmitting}
-          isSubmittingText="Cadastrando..."
-        />
+        <IconButton icon={<Pen />} isLoading={isSubmitting}>
+          Cadastrar
+        </IconButton>
       </div>
     </form>
   );

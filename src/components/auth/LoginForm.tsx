@@ -8,7 +8,8 @@ import { ValidationErrorMessage } from './ValidationErrorMessage';
 import { useAuthStore } from '@/store/use-auth-store';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
-import { AuthButton } from './AuthButton';
+import { IconButton } from '../commom/IconButton';
+import { LogIn } from 'lucide-react';
 
 export function LoginForm() {
   const {
@@ -62,11 +63,9 @@ export function LoginForm() {
           <ValidationErrorMessage message={errors.password?.message} />
         </div>
 
-        <AuthButton
-          text="Entrar"
-          isSubmitting={isSubmitting}
-          isSubmittingText="Entrando..."
-        />
+        <IconButton icon={<LogIn />} isLoading={isSubmitting}>
+          Entrar
+        </IconButton>
         {authError && (
           <p className="text-sm text-destructive text-center">{authError}</p>
         )}
