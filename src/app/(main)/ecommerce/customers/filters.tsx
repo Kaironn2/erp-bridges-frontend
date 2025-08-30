@@ -4,7 +4,6 @@ import { IconButton } from '@/components/commom/IconButton';
 import { FilterContainer } from '@/components/filters/FilterContainer';
 import { FilterField } from '@/components/filters/FilterField';
 import { RangeInput } from '@/components/filters/RangeInput';
-import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import {
   Select,
@@ -13,17 +12,35 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import { useDebounce } from '@/hooks/useDebounce';
+import { CustomerFilters } from '@/lib/types/filters/ecommerce/customer-filters';
 import { useCustomerStore } from '@/store/ecommerce/use-customer-store';
 import { Search } from 'lucide-react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 export function EcommerceCustomerFilters() {
-  const { setFilters, fetchCustomers } = useCustomerStore();
+  const { setFilters: setGlobalFilters, fetchCustomers } = useCustomerStore();
 
-  const [email, setEmail] = useState('');
+  const [localFilters, setLocalFilters] = useState<CustomerFilters>({
+    email: '',
+    name: '',
+    cpf: '',
+    phone: '',
+  });
+
+  const debouncedFilters = useDebounce(localFilters, 300);
+
+  useEffect(() => {
+    setGlobalFilters(debouncedFilters);
+    fetchCustomers({ page: 1 });
+  }, [debouncedFilters, setGlobalFilters, fetchCustomers]);
+
+  const handleFilterChange = (key: keyof CustomerFilters, value: string) => {
+    setLocalFilters((prev) => ({ ...prev, [key]: value }));
+  };
 
   const handleSearch = () => {
-    setFilters({ email });
+    setGlobalFilters(localFilters);
     fetchCustomers({ page: 1 });
   };
 
@@ -31,19 +48,13 @@ export function EcommerceCustomerFilters() {
     <FilterContainer
       mainFilters={
         <>
-          <div className="grid w-full items-center gap-1.5">
-            <div className="relative">
-              <Input
-                id="email-search"
-                placeholder="email@exemplo.com"
-                className="pl-8"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
-              />
-              <Search className="absolute left-2 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-            </div>
-          </div>
+          <FilterField
+            id="email"
+            placeholder="email@exemplo.com"
+            value={localFilters.email}
+            onValueChange={handleFilterChange}
+            onPressEnter={handleSearch}
+          />
           <IconButton icon={<Search />} onClick={handleSearch}>
             Buscar
           </IconButton>
@@ -51,18 +62,29 @@ export function EcommerceCustomerFilters() {
       }
       advancedFilters={
         <>
-          <FilterField id="name" label="Nome" placeholder="João Pedro" />
-          <FilterField id="cpf" label="CPF" placeholder="000.000.000-00" />
+          <FilterField
+            id="name"
+            label="Nome"
+            placeholder="João Pedro"
+            value={localFilters.name}
+            onValueChange={handleFilterChange}
+            onPressEnter={handleSearch}
+          />
+          <FilterField
+            id="cpf"
+            label="CPF"
+            placeholder="000.000.000-00"
+            value={localFilters.cpf}
+            onValueChange={handleFilterChange}
+            onPressEnter={handleSearch}
+          />
           <FilterField
             id="phone"
             label="Telefone"
             placeholder="(75) 99999-9999"
-          />
-
-          <FilterField
-            id="inactive-time"
-            label="Tempo Inativo"
-            placeholder="Selecione um período"
+            value={localFilters.phone}
+            onValueChange={handleFilterChange}
+            onPressEnter={handleSearch}
           />
 
           <RangeInput label="Total Gasto (R$)" />
