@@ -1,3 +1,4 @@
+import { ProtectedRoute } from '@/components/auth/ProtectedRoute';
 import { Footer } from '@/components/layout/Footer';
 import { Header } from '@/components/layout/Header/Header';
 import { MainContainer } from '@/components/layout/MainContainer';
@@ -6,16 +7,18 @@ import { ReactNode } from 'react';
 
 export default function MainLayout({ children }: { children: ReactNode }) {
   return (
-    <div className="flex min-h-screen bg-background">
-      <Sidebar />
+    <ProtectedRoute>
+      <div className="flex min-h-screen bg-background">
+        <Sidebar />
 
-      <MainContainer>
-        <Header />
+        <MainContainer>
+          <Header />
 
-        <div className="flex-1 md:p-6">{children}</div>
+          <div className="flex-1 md:p-6">{children}</div>
 
-        <Footer />
-      </MainContainer>
-    </div>
+          <Footer />
+        </MainContainer>
+      </div>
+    </ProtectedRoute>
   );
 }
