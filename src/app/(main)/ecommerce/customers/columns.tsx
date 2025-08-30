@@ -2,6 +2,8 @@
 
 import { ColumnDef } from '@tanstack/react-table';
 import type { Customer } from '@/lib/schemas/ecommerce/customer-schema';
+import { formatCPF } from '@/lib/utils/formatters/format-cpf';
+import { formatPhone } from '@/lib/utils/formatters/format-phone';
 
 export const columns: ColumnDef<Customer>[] = [
   {
@@ -15,6 +17,22 @@ export const columns: ColumnDef<Customer>[] = [
   {
     accessorKey: 'email',
     header: 'Email',
+  },
+  {
+    accessorKey: 'cpf',
+    header: 'CPF',
+    cell: ({ row }) => {
+      const formattedCpf = formatCPF(row.original.cpf);
+      return <div>{formattedCpf}</div>;
+    },
+  },
+  {
+    accessorKey: 'phone',
+    header: 'Telefone',
+    cell: ({ row }) => {
+      const formattedPhone = formatPhone(row.original.phone);
+      return <div>{formattedPhone}</div>;
+    },
   },
   {
     accessorKey: 'totalSpent',
