@@ -7,7 +7,7 @@ type MainContainerProps = {
 
 export function MainContainer({ children, className }: MainContainerProps) {
   const containerClasses = clsx(
-    'flex-1 h-screen overflow-y-auto',
+    'flex-1 overflow-y-auto',
     'flex flex-col',
     'bg-muted/60 dark:bg-background-muted',
     className
