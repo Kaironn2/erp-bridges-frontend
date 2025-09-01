@@ -53,7 +53,7 @@ export function AccordionMenu({ isCollapsed }: AccordionMenuProps) {
         return (
           <AccordionItem value={`item-${index}`} key={index}>
             <AccordionTrigger
-              className={clsx('p-2 hover:text-primary', {
+              className={clsx('p-2 hover:text-primary cursor-pointer', {
                 'border-l-4 border-primary': isAccordionGroupActive,
               })}
             >
