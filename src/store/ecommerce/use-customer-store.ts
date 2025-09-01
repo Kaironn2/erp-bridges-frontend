@@ -1,12 +1,10 @@
-import apiClient from '@/lib/api-client';
-import { apiRoutes } from '@/lib/api-routes';
+import { create } from 'zustand';
 import {
-  apiPaginatedCustomersResponseSchema,
   Customer,
   PaginatedCustomersResponse,
 } from '@/lib/schemas/ecommerce/customer-schema';
 import { type CustomerFilters } from '@/lib/types/filters/ecommerce/customer-filters';
-import { create } from 'zustand';
+import { customerRepository } from '@/repositories/ecommerce/customer-repository';
 
 type PaginationState = Omit<PaginatedCustomersResponse, 'results'> | null;
 
@@ -37,23 +35,7 @@ export const useCustomerStore = create<CustomerState>((set, get) => ({
 
     set({ isLoading: true, error: null });
     try {
-      const cleanFilters: Record<string, any> = {};
-      for (const [key, value] of Object.entries(filters)) {
-        if (value !== null && value !== undefined && value !== '') {
-          cleanFilters[key] = value;
-        }
-      }
-
-      const response = await apiClient.get(apiRoutes.ecommerce.customers, {
-        params: {
-          page,
-          ...cleanFilters,
-        },
-      });
-
-      const validatedData = apiPaginatedCustomersResponseSchema.parse(
-        response.data
-      );
+      const validatedData = await customerRepository.getAll({ page, filters });
 
       set({
         customers: validatedData.results,
