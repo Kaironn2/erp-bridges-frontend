@@ -12,7 +12,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { useDebounce } from '@/hooks/useDebounce';
+import { useDebounce } from '@/hooks/use-debounce';
 import { CustomerFilters } from '@/lib/types/filters/ecommerce/customer-filters';
 import { useCustomerStore } from '@/store/ecommerce/use-customer-store';
 import { Search } from 'lucide-react';
